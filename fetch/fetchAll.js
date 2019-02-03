@@ -22,6 +22,9 @@ const SQL = require('./sqlUtils');
       break;
     }
     // console.timeEnd('Request');
-    await SQL.insert(price, tableName);
+    if (await SQL.differentFromLast(price, tableName)) {
+      console.log('Price is different, adding new row.');
+      await SQL.insert(price, tableName);
+    }
   }
 })();

@@ -2,7 +2,7 @@ const puppeteer = require('puppeteer-core');
 
 const puppSettings = {
   executablePath: '/usr/bin/chromium-browser',
-  headless: false,
+  headless: true,
   args: ['--no-sandbox', '--disable-setuid-sandbox']
 };
 

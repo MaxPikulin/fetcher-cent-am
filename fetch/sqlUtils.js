@@ -19,7 +19,22 @@ async function getTasks() {
   return tasks;
 }
 
+async function differentFromLast(price, table) {
+  const connection = mysql.createConnection(connSettings);
+  connection.query = util.promisify(connection.query);
+  let lastRow = await connection.query(`select price from ${table} where id=(select max(id) from ${table})`);
+  let lastPrice = lastRow[0].price;
+  connection.end();
+  console.log(lastPrice, price);
+  if (lastPrice != price) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 module.exports = {
   insert,
   getTasks,
+  differentFromLast,
 };
