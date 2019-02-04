@@ -9,8 +9,13 @@ const puppSettings = {
 async function amazon(itemToGet) {
   const browser = await puppeteer.launch(puppSettings);
   const page = await browser.newPage();
-  await page.goto(itemToGet.url, { waitUntil: 'networkidle2', timeout: 100000 });
-  await page.waitForSelector('#price_inside_buybox');
+  await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36');
+  // await page.setViewport({ width: 1024, height: 768 });
+  try {
+    await page.goto(itemToGet.url, { /* waitUntil: 'domcontentloaded', */ timeout: 10000 });
+    
+  } catch (e) {}
+  // await page.waitForSelector('#price_inside_buybox');
   let currPrice = await page.evaluate(() => { return document.querySelector('#price_inside_buybox').textContent });
   currPrice = parseFloat(currPrice.replace(/[,£]/g,""));
   await browser.close();
