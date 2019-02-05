@@ -12,12 +12,15 @@ async function amazon(itemToGet) {
   await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36');
   // await page.setViewport({ width: 1024, height: 768 });
   try {
-    await page.goto(itemToGet.url, { /* waitUntil: 'domcontentloaded', */ timeout: 10000 });
-    
-  } catch (e) {}
+    await page.goto(itemToGet.url, { /* waitUntil: 'domcontentloaded', */ timeout: 30000 });
+
+  } catch (e) { }
   // await page.waitForSelector('#price_inside_buybox');
-  let currPrice = await page.evaluate(() => { return document.querySelector('#price_inside_buybox').textContent });
-  currPrice = parseFloat(currPrice.replace(/[,£]/g,""));
+  let currPrice;
+  try {
+    currPrice = await page.evaluate(() => { return document.querySelector('#price_inside_buybox').textContent });
+    currPrice = parseFloat(currPrice.replace(/[,£]/g, ""));
+  } catch (e) { }
   await browser.close();
   return currPrice;
 }
