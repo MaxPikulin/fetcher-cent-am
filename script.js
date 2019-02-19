@@ -3,7 +3,7 @@ containerDiv = document.querySelector('.container');
 //   query: 'select * from SSD2TB order by id desc',
 // };
 const body = {
-  query: 'select tableName from tasks',
+  query: `select tableName from tasks`,
 };
 // const ws = new WebSocket('ws://zavit.com:8010');
 
@@ -30,14 +30,18 @@ async function init() {
     let table = await fetch('../api/mysqlAPI.js', {
       method: 'POST',
       body: JSON.stringify({
-        query: `select * from ${result[i].tableName} order by id desc`,
+        query: `select * from \`${result[i].tableName}\` order by id desc`,
       }),
     });
     table = await table.json();
     // console.log(table);
     containerDiv.innerHTML += `<div>${result[i].tableName}</div>` + makeTable(table);
   }
-  // containerDiv.innerHTML = makeTable(result);
+  setTimeout(() => {
+    containerDiv.innerHTML = '';
+    console.log('Fetched:', new Date());
+    init();
+  }, 1000 * 60 * 60);
 }
 
 function makeTable(data) {
