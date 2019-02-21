@@ -18,7 +18,7 @@ async function amazon(itemToGet) {
   // await page.waitForSelector('#price_inside_buybox');
   let currPrice;
   try {
-    currPrice = await page.evaluate(() => { return document.querySelector('#price_inside_buybox').textContent });
+    currPrice = await page.evaluate(() => { return document.querySelector('#priceblock_ourprice').textContent }); // price_inside_buybox
     currPrice = parseFloat(currPrice.replace(/[,£]/g, ""));
   } catch (e) { }
   await browser.close();
